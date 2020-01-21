@@ -5,10 +5,16 @@ import (
 	"net/http"
 
 	"github.com/labstack/echo"
+	"github.com/subeenchung/cath-palug/config"
+	"github.com/subeenchung/cath-palug/routes"
 )
 
+var Cfg config.MainConfig
+
 func main() {
+	Cfg = config.LoadConfig("./config.toml")
 	e := echo.New()
+	e.GET("/test", routes.Handler)
 	e.GET("/request", func(c echo.Context) error {
 		req := c.Request()
 		format := `
