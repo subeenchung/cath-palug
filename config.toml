@@ -2,6 +2,13 @@
 listening_port = 3000
 signing_key = "kekekekekekekekekekeke"
 debug = true
+[db]
+type = "postgres"
+ip = "localhost"
+port = 5432
+db_name = "cathpalug"
+user = "fou"
+password = "diemerlinfouuu"
 [smtp]
 server1 = "172.16.11.10:25"
 server2 = "172.16.11.11:25"

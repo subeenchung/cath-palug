@@ -1,6 +1,9 @@
 package models
 
-
+import (
+	"errors"
+	"database/sql"
+)
 type User struct {
 	Name string `json:"name"`
 	Email string `json:"email"`
@@ -27,9 +30,9 @@ func (db *DB) GetUserPassword(username string)([]byte, error){
 	err := db.QueryRow("SELECT password_hash FROM users WHERE username = ?", username).Scan(&pwd)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return '', errors.New("Err: user does not exist")
+			return []byte(""), errors.New("Err: user does not exist")
 		} else {
-			return '', err
+			return []byte(""), err
 		}
 	}
 	return pwd, nil

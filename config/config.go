@@ -8,6 +8,7 @@ import (
 
 type MainConfig struct {
 	App AppConfig `toml:"app"`
+	DB DBConfig `toml:"db"`
 	Smtp SmtpConfig `toml:"smtp"`		
 }
 
@@ -15,6 +16,15 @@ type AppConfig struct {
 	ListeningPort int `toml:"listening_port"`
 	SigningKey string `toml:"signing_key"`
 	Debug bool	`toml:"debug"`
+}
+
+type DBConfig struct {
+	Type string `toml:"type"`
+	IP string `toml:"ip"`
+	Port int `toml:"port"`
+	Dbname string `toml:"db_name"`
+	User string `toml:"user"`
+	Password string `toml:"password"`
 }
 
 type SmtpConfig struct {

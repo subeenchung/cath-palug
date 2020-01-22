@@ -2,17 +2,33 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/labstack/echo"
 	"github.com/subeenchung/cath-palug/config"
+	"github.com/subeenchung/cath-palug/models"
 	"github.com/subeenchung/cath-palug/routes"
 )
 
-var Cfg config.MainConfig
+var cfg config.MainConfig
+
+type Env struct {
+	db models.DataStore
+}
 
 func main() {
-	Cfg = config.LoadConfig("./config.toml")
+	//Load configuration
+	cfg = config.LoadConfig("./config.toml")
+	//Load database connection
+	db, err := models.NewDB(fmt.Sprintf("%s://%s:%s@%s:%d/%s", cfg.DB.Type, cfg.DB.User, cfg.DB.Password, cfg.DB.IP, cfg.DB.Port, cfg.DB.Dbname))
+	if err != nil {
+		log.Panic(err)
+	}
+	if err = db.Ping(); err != nil {
+		log.Panic(err)
+	}
+	//env := &Env{db}
 	e := echo.New()
 	e.GET("/test", routes.Handler)
 	e.GET("/request", func(c echo.Context) error {
